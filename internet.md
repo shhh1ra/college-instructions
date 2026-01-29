@@ -8,10 +8,10 @@
 3. Заход на огонек: sudo vi /etc/net/ifaces/ens38/options
 Откроется пустой файл, что делаем дальше: нажимаем i, на первый взгляд ниче не произойдет, на самом деле мы уже в режиме вставки текста будем. С вимом ошибаться в тексте ваще нельзя, переписывать толком не получится.
 Структура options файла:
-TYPE=eth
-BOOTPROTO=dhcp
-ONBOOT=yes
-CONFIG_IPV4=yes
+> TYPE=eth
+> BOOTPROTO=dhcp
+> ONBOOT=yes
+> CONFIG_IPV4=yes
 Все символ в символ, без своих домыслов.
 4. Рестартнуть интернет в виртуалке:
 sudo systemctl restart network
