@@ -53,6 +53,19 @@ cd /etc/net/ifaces
 sudo mkdir -p ens36 && sudo mkdir -p ens37 && cd ens36 && sudo nano options && sudo nano ipv4address && cd ../ && cd ens37 && sudo nano options && sudo nano ipv4address && sudo systemctl restart network && sudo systemctl status network && ip a
 ```
 - Файл options (общий для двух интов)
-
+```bash
+TYPE=eth
+BOOTPROTO=static
+ONBOOT=yes
+CONFIG_IPV4=yes
+```
+- ipv4address (HQ-RTR)
+```bash
+172.16.4.1/28
+```
+- ipv4address (BR-RTR)
+```bash
+172.16.5.1/28
+```
 
 Примечание к п.2: ens3x - номер интерфейса будет скорее всего у всех разный, инты узнаются через команду ip a
