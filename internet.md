@@ -150,3 +150,5 @@ systemctl status iptables
 cat /etc/sysconfig/iptables
 ```
 - Ожидаемый вывод: много строк с правилами.
+# Глава 4: настройка HQ-RTR
+## Начнем с dhcp:
