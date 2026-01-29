@@ -94,7 +94,7 @@ CONFIG_IPV4=yes
 ## Считаю нужным выделить эту настройку в отдельный раздел, потому что тут веселья еще больше.
 - Включаем маршрутизацию:
 ```bash
-sysctl -w net.ipv4.ip_forward=1
+/sbin/sysctl -w net.ipv4.ip_forward=1
 ```
 - Сохраняем внесенное изменение:
 ```bash
@@ -128,4 +128,6 @@ iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT
 iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
 ```
-
+- Проверяем правила:
+```bash
+iptables
