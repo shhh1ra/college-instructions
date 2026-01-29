@@ -106,7 +106,7 @@ net.ipv4.ip_forward=1
 ```
 - Проверяем внесенные изменения:
 ```bash
-sysctl net.ipv4.ip_forward
+/sbin/sysctl net.ipv4.ip_forward
 ```
 - В ответе ожидается цифра 1, если нет, то еще раз в начало главы.
 ****
