@@ -8,7 +8,7 @@
 ```bash
 cd /etc/net/ifaces
 ```
-И создать папку интерфеса (в качестве примера ens38):
+- И создать папку интерфеса (в качестве примера ens38):
 ```bash
 sudo mkdir -p ens38 && cd ens38 && sudo vi options
 ```
