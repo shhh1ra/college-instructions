@@ -14,7 +14,7 @@
 ![picture](https://raw.githubusercontent.com/shhh1ra/damn/refs/heads/main/images/virtual-networks.jpg)
 ****
 ### Первые 2 будут работать в формате линков между сегментами, интересует изначально VM Network, который выполняет роль местного провайдера, что нужно чтобы поднять инет на виртуалке:
-1. Определиться с именем интерфейса, потому что на виртуалках они нормально не подписываются. `общая тенденция - в каком порядке они стоят в свойствах вирталки, также будут и в ней`, альт способ будет чуть позже.
+1. Определиться с именем интерфейса, потому что на виртуалках они нормально не подписываются. `общая тенденция - в каком порядке они стоят в свойствах виртуалки, также будут и в ней`, альт способ будет чуть позже.
 2. После определения с именем интерфейса нужно зайти в каталог интерфейсов:
 ```bash
 cd /etc/net/ifaces
@@ -89,7 +89,24 @@ CONFIG_IPV4=yes
 ```
 # Глава 3: Настройка NAT (Все еще ISP):
 ## Считаю нужным выделить эту настройку в отдельный раздел, потому что тут веселья еще больше.
-- Включаем маршрутизацию
+- Включаем маршрутизацию:
+```bash
+sysctl -w net.ipv4.ip_forward=1
 ```
+- Сохраняем внесенное изменение:
+```bash
+nano /etc/sysctl.conf
+```
+- В открывшийся файл сразу после коментариев (В nano выделены синим) отступаем одну строку и дописываем:
+```bash
+net.ipv4.ip_forward=1
+```
+- Проверяем внесенные изменения:
+```bash
+sysctl net.ipv4.ip_forward
+```
+- В ответе ожидается цифра 1, если нет, то еще раз в начало главы.
+****
+## Собтсвенно сам NAT
 cd /etc/net/ifaces/ && mkdir -p ens36 && mkdir -p ens37 && mkdir -p ens38 && cd ens38 && vi options && sleep 2 && cat options && sleep 2 && systemctl restart network && systemctl status network && sleep 3 && apt-get update && apt-get install nano && cd ../ && cd ens36 && nano options && nano ipv4address && cd .. && cd ens37 && nano options && nano ipv4address && systemctl restart network && systemctl status network && sleep 3 && ip a && sleep 5 && /sbin/sysctl -w net.ipv4.ip_forward=1 && nano /etc/sysctl.conf && sysctl net.ipv4.ip_forward && sleep 4 && iptables -t nat -A POSTROUTING -s 172.16.4.0/28 -o ens38 -j MASQUERADE && iptables -t nat -A POSTROUTING -s 172.16.5.0/28 -o ens38 -j MASQUERADE && iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT && iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT && iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -t nat -L -n -v && sleep 4 && service iptables save && systemctl enable iptables && sleep 5
 ```
