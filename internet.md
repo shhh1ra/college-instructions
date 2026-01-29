@@ -48,9 +48,21 @@ nano пригодится дальше, нам все еще 10 интов пр�
 ```bash
 cd /etc/net/ifaces
 ```
-- Ультимативная команда для настройки сразу всех интов на ISP(вставь свое число)
+- Создаем папки:
 ```bash
-sudo mkdir -p ens36 && sudo mkdir -p ens37 && cd ens36 && sudo nano options && sudo nano ipv4address && cd ../ && cd ens37 && sudo nano options && sudo nano ipv4address && sudo systemctl restart network && sudo systemctl status network && ip a
+sudo mkdir -p ens36 && sudo mkdir -p ens37
+```
+- Настройка ens36 (Интернет с которого пойдет на HQ-RTR)
+```bash
+cd ens36 && sudo nano options && sudo nano ipv4address
+```
+- Настройка ens37 (Интернет с которого пойдет на BR-RTR)
+```bash
+cd ../ && cd ens37 && sudo nano options && sudo nano ipv4address
+```
+-Рестарт служб и проверка айпишников:
+```bash
+sudo systemctl restart network && sudo systemctl status network && ip a
 ```
 - Файл options (общий для двух интов)
 ```bash
@@ -71,4 +83,6 @@ CONFIG_IPV4=yes
 Примечание к п.2: ens3x - номер интерфейса будет скорее всего у всех разный, инты узнаются через команду ip a
 
 
-[root@max ens37]# cd /etc/net/ifaces/ && mkdir -p ens36 && mkdir -p ens37 && mkdir -p ens38 && cd ens38 && vi options && sleep 2 && cat options && sleep 2 && systemctl restart network && systemctl status network && sleep 3 && apt-get update && apt-get install nano && cd ../ && cd ens36 && nano options && nano ipv4address && cd .. && cd ens37 && nano options && nano ipv4address && systemctl restart network && systemctl status network && sleep 3 && ip a && sleep 5 && /sbin/sysctl -w net.ipv4.ip_forward=1 && nano /etc/sysctl.conf && sysctl net.ipv4.ip_forward && sleep 4 && iptables -t nat -A POSTROUTING -s 172.16.4.0/28 -o ens38 -j MASQUERADE && iptables -t nat -A POSTROUTING -s 172.16.5.0/28 -o ens38 -j MASQUERADE && iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT && iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT && iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -t nat -L -n -v && sleep 4 && service iptables save && systemctl enable iptables && sleep 5_
+```
+cd /etc/net/ifaces/ && mkdir -p ens36 && mkdir -p ens37 && mkdir -p ens38 && cd ens38 && vi options && sleep 2 && cat options && sleep 2 && systemctl restart network && systemctl status network && sleep 3 && apt-get update && apt-get install nano && cd ../ && cd ens36 && nano options && nano ipv4address && cd .. && cd ens37 && nano options && nano ipv4address && systemctl restart network && systemctl status network && sleep 3 && ip a && sleep 5 && /sbin/sysctl -w net.ipv4.ip_forward=1 && nano /etc/sysctl.conf && sysctl net.ipv4.ip_forward && sleep 4 && iptables -t nat -A POSTROUTING -s 172.16.4.0/28 -o ens38 -j MASQUERADE && iptables -t nat -A POSTROUTING -s 172.16.5.0/28 -o ens38 -j MASQUERADE && iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT && iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT && iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -t nat -L -n -v && sleep 4 && service iptables save && systemctl enable iptables && sleep 5
+```
