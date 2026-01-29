@@ -130,4 +130,17 @@ iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLIS
 ```
 - Проверяем правила:
 ```bash
-iptables
+iptables -t nat -L -n -v
+iptables -L FORWARD -n -v
+```
+- Ожидаемый вывод: строки MASQUERADE для двух подсетей.
+- Сохранение iptables:
+```bash
+iptables-save >> /etc/sysconfig/iptables
+```
+- Включение автозагрузки правил:
+```bash
+systemctl enable iptables
+systemctl restart iptables
+systemctl status iptables
+```
