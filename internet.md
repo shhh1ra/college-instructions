@@ -67,7 +67,7 @@ cd ens36 && sudo nano options && sudo nano ipv4address
 ```bash
 cd ../ && cd ens37 && sudo nano options && sudo nano ipv4address
 ```
--Рестарт служб и проверка айпишников:
+- Рестарт служб и проверка айпишников:
 ```bash
 sudo systemctl restart network && sudo systemctl status network && ip a
 ```
