@@ -78,15 +78,16 @@ BOOTPROTO=static
 ONBOOT=yes
 CONFIG_IPV4=yes
 ```
-- ipv4address (ens36(Который пойдет на HQ-RTR)
+- ipv4address (ens36 (Который пойдет на HQ-RTR)
 ```bash
 172.16.4.1/28
 ```
-- ipv4address (BR-RTR)
+- ipv4address (ens37 (Который пойдет на BR-RTR)
 ```bash
 172.16.5.1/28
 ```
-
+# Глава 3: Настройка NAT (Все еще ISP):
+## Считаю нужным выделить эту настройку в отдельный раздел, потому что тут веселья еще больше.
 
 ```
 cd /etc/net/ifaces/ && mkdir -p ens36 && mkdir -p ens37 && mkdir -p ens38 && cd ens38 && vi options && sleep 2 && cat options && sleep 2 && systemctl restart network && systemctl status network && sleep 3 && apt-get update && apt-get install nano && cd ../ && cd ens36 && nano options && nano ipv4address && cd .. && cd ens37 && nano options && nano ipv4address && systemctl restart network && systemctl status network && sleep 3 && ip a && sleep 5 && /sbin/sysctl -w net.ipv4.ip_forward=1 && nano /etc/sysctl.conf && sysctl net.ipv4.ip_forward && sleep 4 && iptables -t nat -A POSTROUTING -s 172.16.4.0/28 -o ens38 -j MASQUERADE && iptables -t nat -A POSTROUTING -s 172.16.5.0/28 -o ens38 -j MASQUERADE && iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT && iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT && iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT && iptables -t nat -L -n -v && sleep 4 && service iptables save && systemctl enable iptables && sleep 5
