@@ -144,3 +144,8 @@ systemctl enable iptables
 systemctl restart iptables
 systemctl status iptables
 ```
+- Проверка, что правила сохранились:
+```bash
+cat /etc/sysconfig/iptables
+```
+- Ожидаемый вывод: много строк с правилами.
