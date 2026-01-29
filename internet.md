@@ -114,8 +114,8 @@ net.ipv4.ip_forward=1
 ### В Alt Server реализуется через iptables, правил будет много, писать надо внимательно:
 - Настройка NAT наружу:
 ```bash
-iptables -t nat -A POSTROUTING -S 172.16.4.0/28 -o ens38 -j MASQUERADE
-iptables -t nat -A POSTROUTING -S 172.16.5.0/28 -o ens38 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 172.16.4.0/28 -o ens38 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 172.16.5.0/28 -o ens38 -j MASQUERADE
 ```
 **NAT наружу предполагает настройку ретрансляции во внешнюю сеть (провайдера), в качестве внешнего инта у меня ens38, поэтому правила такие (К слову 2 команды вводятся по одной, начинаются с iptables.**
 - Разрешаем NAT с локальных сетей на внешку:
