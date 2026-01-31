@@ -25,7 +25,7 @@ cd /etc/net/ifaces
 ```
 - И создать папку интерфеса (в качестве примера ens38):
 ```bash
-sudo mkdir -p ens38 && cd ens38 && sudo vi options
+mkdir -p ens38 && cd ens38 && vi options
 ```
 3. Через дранный vim (vi) надо внести конфиги в путь /etc/net/ifaces/ens38/options (В результате предыдущего пункта ты уже должен быть в нужном файле (options - файл))
 - Откроется пустой файл, что делаем дальше: `нажимаем i`, на первый взгляд ниче не произойдет, на самом деле мы уже в режиме вставки текста будем. С вимом ошибаться в тексте ваще нельзя, переписывать толком не получится.
@@ -40,17 +40,17 @@ CONFIG_IPV4=yes
 Все символ в символ, без своих домыслов.
 4. Рестартнуть интернет в виртуалке:
 ```bash
-sudo systemctl restart network
-sudo systemctl status network
+systemctl restart network
+systemctl status network
 ```
 Либо:
-sudo service network restart (Больше в крайнем случае, зачастую systemd работает)
+  service network restart (Больше в крайнем случае, зачастую systemd работает)
 5. Проверка интернета:
 ip a
 Если на инте появился айпишник - авантюра удалась.
 6. После появления айпишника:
 ```bash 
-sudo apt-get update && sudo apt-get install nano
+apt-get update && apt-get install nano
 ```
 nano пригодится дальше, нам все еще 10 интов примерно поднимать также.
 ****
@@ -61,19 +61,19 @@ cd /etc/net/ifaces
 ```
 - Создаем папки:
 ```bash
-sudo mkdir -p ens36 && sudo mkdir -p ens37
+mkdir -p ens36 && mkdir -p ens37
 ```
 - Настройка ens36 (Интернет с которого пойдет на HQ-RTR)
 ```bash
-cd ens36 && sudo nano options && sudo nano ipv4address
+cd ens36 && nano options && nano ipv4address
 ```
 - Настройка ens37 (Интернет с которого пойдет на BR-RTR)
 ```bash
-cd ../ && cd ens37 && sudo nano options && sudo nano ipv4address
+cd ../ && cd ens37 && nano options && nano ipv4address
 ```
 - Рестарт служб и проверка айпишников:
 ```bash
-sudo systemctl restart network && sudo systemctl status network && ip a
+systemctl restart network && systemctl status network && ip a
 ```
 - Файл options (общий для двух интов)
 ```bash
