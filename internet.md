@@ -173,7 +173,7 @@ CONFIG_IPV4=yes
 ```
 - ipv4route
 ```bash
-default via 172.16.4
+default via 172.16.4.1
 ```
 - Рестарт служб
 ```bash
