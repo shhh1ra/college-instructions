@@ -152,4 +152,35 @@ cat /etc/sysconfig/iptables
 - Ожидаемый вывод: много строк с правилами.
 # Глава 4: настройка HQ-RTR
 ## Начнем с поднятия интернета, конкретно тут уже прикол начинается, первый инт внутренний, второй внешний, в рамках начала нам нужен сначала внешний для получения интернета.
-- 
+- Настройка интерфейсов:
+```bash
+cd /etc/net/ifaces && mkdir ens37 && cd ens37
+```
+- Файлы конфигов:
+```bash
+touch options ipv4address ipv4route && mcedit options
+```
+- options:
+```bash
+TYPE=eth
+BOOTPROTO=static
+ONBOOT=yes
+CONFIG_IPV4=yes
+```
+- ipv4address
+```bash
+172.16.4.2/28
+```
+- ipv4route
+```bash
+default via 172.16.4
+```
+- Рестарт служб
+```bash
+systemctl restart network && systemctl status network && ip -c a
+```
+- На этот момент интернет уже должен быть на виртуалке. Если произойдет так называемый сбой в разрешении имен:
+```bash
+mcedit /etc/resolv.conf
+nameserver 8.8.8.8
+```
