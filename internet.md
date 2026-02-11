@@ -177,3 +177,18 @@ systemctl restart network && systemctl status network && ip -c a
 mcedit /etc/resolv.conf
 nameserver 8.8.8.8
 ```
+****
+### Настройка vlan-ов:
+- Сначала создается trunk порт:
+```bash
+cd /etc/net/ifaces && mkdir ens36 && cd ens36 && mcedit options
+```
+- options файл:
+```bash
+TYPE=eth
+BOOTPROTO=none
+ONBOOT=yes
+```
+- Дальше создаются отдельные vlan инты:
+```bash
+```
