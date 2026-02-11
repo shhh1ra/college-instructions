@@ -46,11 +46,6 @@ systemctl status network
 5. Проверка интернета:
 ip a
 Если на инте появился айпишник - авантюра удалась.
-6. После появления айпишника:
-```bash 
-apt-get update && apt-get install mcedit
-```
-mcedit пригодится дальше, нам все еще 10 интов примерно поднимать также.
 ****
 # Глава 2: Настройка межклиентской сети (Все еще на ISP):
 - Переход в ifaces строго предполагается, поэтому лучше сразу перейти перед выполнением следующих команд
@@ -71,7 +66,7 @@ cd ../ && cd ens37 && mcedit options && mcedit ipv4address
 ```
 - Рестарт служб и проверка айпишников:
 ```bash
-systemctl restart network && systemctl status network && ip a
+systemctl restart network && systemctl status network && ip -c a
 ```
 - Файл options (общий для двух интов)
 ```bash
@@ -98,7 +93,7 @@ CONFIG_IPV4=yes
 ```bash
 mcedit /etc/sysctl.conf
 ```
-- В открывшийся файл сразу после коментариев (В mcedit выделены синим) отступаем одну строку и дописываем:
+- В открывшийся файл сразу после коментариев (Которые всегда начинаются с #) отступаем одну строку и дописываем:
 ```bash
 net.ipv4.ip_forward=1
 ```
