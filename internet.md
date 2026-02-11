@@ -191,4 +191,17 @@ ONBOOT=yes
 ```
 - Дальше создаются отдельные vlan инты:
 ```bash
+cd /etc/net/ifaces && mkdir ens36.100 ens36.200 ens36.999
+```
+- Дальше заходим в каждую папку интерфейса и настраиваем options файл (Пример для ens36.100):
+```bash
+TYPE=vlan
+HOST=ens36
+VID=100
+BOOTPROTO=static
+ONBOOT=yes
+```
+- Файл ipv4address:
+```bash
+192.168.10.1/26
 ```
