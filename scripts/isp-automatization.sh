@@ -38,6 +38,8 @@ sleep 5
 # --- Маршрутизация --- 
 echo "Включаем маршрутизацию:"
 /sbin/sysctl -w net.ipv4.ip_forward=1 >/dev/null
+# Сохраняем внесенные изменения:
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
 $IPT="/sbin/iptables"
 echo "Задаем правила маршрутизации на iptables:"
