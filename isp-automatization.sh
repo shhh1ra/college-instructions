@@ -7,7 +7,26 @@ LAN1_NET="172.16.4.0/28"
 LAN2_NET="172.16.5.0/28"
 
 # --- Спрашиваем пользователя внешний инт --- 
-read -r -p "Внешний интерфейс (WAN), например ens38: " WAN_IF 
+read -r -p "Внешний интерфейс (WAN), например ens38: " WAN_IF
+
+# Создаем инты:
+# ens36
+cd /etc/net/ifaces
+mkdir ens36 && cd ens36 && touch options ipv4address
+echo "TYPE=eth" >> options
+echo "BOOTPROTO=static" >> options
+echo "ONBOOT=yes" >> options
+echo "CONFIG_IPV4=yes" >> options
+echo "172.16.4.1/28" >> ipv4address
+
+# ens37
+cd /etc/net/ifaces
+mkdir ens37 && cd ens37 && touch options ipv4address
+echo "TYPE=eth" >> options
+echo "BOOTPROTO=static" >> options
+echo "ONBOOT=yes" >> options
+echo "CONFIG_IPV4=yes" >> options
+echo "172.16.5.1/28" >> ipv4address
 
 # --- Маршрутизация --- 
 echo "Включаем маршрутизацию:"
