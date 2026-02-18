@@ -12,7 +12,7 @@ read -r -p "Внешний интерфейс (WAN), например ens38: " W
 # Создаем инты:
 # ens36
 cd /etc/net/ifaces
-mkdir ens36 && cd ens36 && touch options ipv4address
+mkdir -p ens36 && cd ens36 && touch options ipv4address
 echo "TYPE=eth" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
@@ -21,7 +21,7 @@ echo "172.16.4.1/28" >> ipv4address
 
 # ens37
 cd /etc/net/ifaces
-mkdir ens37 && cd ens37 && touch options ipv4address
+mkdir -p ens37 && cd ens37 && touch options ipv4address
 echo "TYPE=eth" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
@@ -41,7 +41,7 @@ echo "Включаем маршрутизацию:"
 # Сохраняем внесенные изменения:
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
-$IPT="/sbin/iptables"
+IPT="/sbin/iptables"
 echo "Задаем правила маршрутизации на iptables:"
 # NAT наружу
 $IPT -t nat -A POSTROUTING -s "$LAN1_NET" -o "$WAN_IF" -j MASQUERADE
@@ -56,7 +56,7 @@ $IPT -A FORWARD -i "$WAN_IF" -o "$LAN1_IF" -d "$LAN1_NET" -m state --state ESTAB
 $IPT -A FORWARD -i "$WAN_IF" -o "$LAN2_IF" -d "$LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # Сохранение конфигов в файл:
-iptables-save >> /etc/sysconfig/iptables
+iptables-save > /etc/sysconfig/iptables
 
 # Включение автозагрузки правил:
 systemctl enable iptables && systemctl restart iptables && systemctl status iptables --no-pager
