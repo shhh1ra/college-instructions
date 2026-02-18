@@ -47,3 +47,7 @@ echo "VID=$VLAN3_ID" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
 echo "192.168.99.1/29" >> ipv4address
+
+systemctl restart network && systemctl status network --no-pager
+sleep 5
+ip -c a
