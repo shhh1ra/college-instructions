@@ -55,7 +55,7 @@ $IPT -A FORWARD -i "WAN_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLIS
 
 
 # Создаем systemd unit:
-cat /etc/systemd/system/ip-forward-onboot.service <<'EOF'
+cat > /etc/systemd/system/ip-forward-onboot.service <<'EOF'
 [Unit]
 Description=Enable IPv4 forwarding on boot (safety)
 After=network-online.target
