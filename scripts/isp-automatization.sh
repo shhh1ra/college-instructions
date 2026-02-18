@@ -55,7 +55,11 @@ $IPT -A FORWARD -i "$LAN2_IF" -o "$WAN_IF" -s "$LAN2_NET" -j ACCEPT
 $IPT -A FORWARD -i "$WAN_IF" -o "$LAN1_IF" -d "$LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
 $IPT -A FORWARD -i "$WAN_IF" -o "$LAN2_IF" -d "$LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
 
+# Сохранение конфигов в файл:
+iptables-save >> /etc/sysconfig/iptables
 
+# Включение автозагрузки правил:
+systemctl enable iptables && systemctl restart iptables && systemctl status iptables --no-pager
 # Создаем systemd unit:
 cat > /etc/systemd/system/ip-forward-onboot.service <<'EOF'
 [Unit]
