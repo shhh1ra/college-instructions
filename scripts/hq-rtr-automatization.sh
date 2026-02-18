@@ -8,39 +8,42 @@ VLAN3="ens36.999"
 VLAN1_ID="100"
 VLAN2_ID="200"
 VLAN3_ID="999"
-IFACES_FOLDER="/etc/net/ifaces
+IFACES_FOLDER="/etc/net/ifaces"
 
 # --- Создание интов --- 
 # trunk
-cd $IFACES_FOLDER
+cd "$IFACES_FOLDER"
 mkdir -p $HOST && cd $HOST
 echo "TYPE=eth" >> options
 echo "BOOTPROTO=none" >> options
 echo "ONBOOT=yes" >> options
 
 # vlan1 (.100)
-cd $IFACES_FOLDER
+cd "$IFACES_FOLDER"
 mkdir -p $VLAN1 && cd $VLAN1
 echo "TYPE=vlan" >> options
 echo "HOST=$HOST" >> options
 echo "VID=$VLAN1_ID" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
+echo "192.168.10.1/26" >> ipv4address
 
 # vlan2 (.200)
-cd $IFACES_FOLDER
+cd "$IFACES_FOLDER"
 mkdir -p $VLAN2 && cd $VLAN2
 echo "TYPE=vlan" >> options
 echo "HOST=$HOST" >> options
 echo "VID=$VLAN2_ID" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
+echo "192.168.20.1/28" >> ipv4address
 
 # vlan3 (.999)
-cd $IFACES_FOLDER
+cd "$IFACES_FOLDER"
 mkdir -p $VLAN3 && cd $VLAN3
 echo "TYPE=vlan" >> options
 echo "HOST=$HOST" >> options
 echo "VID=$VLAN3_ID" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
+echo "192.168.99.1/29" >> ipv4address
