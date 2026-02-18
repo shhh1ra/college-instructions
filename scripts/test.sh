@@ -1,20 +1,13 @@
-# Создаем systemd unit:
-cat > /etc/systemd/system/ip-forward-onboot.service <<'EOF'
-[Unit]
-Description=Enable IPv4 forwarding on boot (safety)
-After=network-online.target
-Wants=network-online.target
+#!/usr/bin/env bash
+modprobe gre
+echo gre >> /etc/modules
 
-[Service]
-Type=oneshot
-ExecStart=/sbin/sysctl -w net.ipv4.ip_forward=1
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# перезагружаем службы:
-systemctl daemon-reload
-# включаем и запускаем службу
-systemctl enable --now ip-forward-onboot.service
+cd $IFACES_FORDER
+mkdir $INT_NAME && cd $INT_NAME
+echo "TYPE=iptun" >> options
+echo "TUNTYPE=gre" >> options
+echo "TUNLOCAL=$TUNLOCAL" >> options
+echo "TUNREMOTE=$TUNREMOTE" >> options
+echo "TUNOPTIONS='ttl 64'" >> options
+echo "ONBOOT=yes" >> options
+echo "10.10.10.1/30" >> ipv4address
