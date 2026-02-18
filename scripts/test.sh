@@ -1,5 +1,5 @@
 # Создаем systemd unit:
-cat /etc/systemd/system/ip-forward-onboot.service <<'EOF'
+cat > /etc/systemd/system/ip-forward-onboot.service <<'EOF'
 [Unit]
 Description=Enable IPv4 forwarding on boot (safety)
 After=network-online.target
