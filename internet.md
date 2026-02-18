@@ -205,4 +205,29 @@ ONBOOT=yes
 ```bash
 192.168.10.1/26
 ```
-Аналогично создаются для остальных вланов (.200 и .999) (допишу чуть позже)
+- ens36.200
+- options:
+```bash
+TYPE=vlan
+HOST=ens36
+VID=200
+BOOTPROTO=static
+ONBOOT=yes
+```
+- ipv4address:
+```bash
+192.168.10.1/28
+```
+- ens36.999
+- options:
+```bash
+TYPE=vlan
+HOST=ens36
+VID=999
+BOOTPROTO=static
+ONBOOT=yes
+```
+- ipv4address:
+```bash
+192.168.99.1/29
+```
