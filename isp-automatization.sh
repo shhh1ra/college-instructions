@@ -3,8 +3,8 @@ set -euo pipefail
 
 LAN1_IF="ens36"
 LAN2_IF="ens37"
-LAN1_NET_DEFAULT="172.16.4.0/28"
-LAN2_NET_DEFAULT="172.16.5.0/28"
+LAN1_NET="172.16.4.0/28"
+LAN2_NET="172.16.5.0/28"
 
 # --- Спрашиваем пользователя внешний инт --- 
 read -r -p "Внешний интерфейс (WAN), например ens38: " WAN_IF 
@@ -20,5 +20,5 @@ $IPT -t nat -A POSTROUTING -s "LAN1_NET" -o "WAN_IF" -j MASQUERADE
 $IPT -t nat -A POSTROUTING -s "LAN2_NET" -o "WAN_IF" -j MASQUERADE
 
 # NAT с локальных сетей на внешку
-$IPT -A FORWARD -i "LAN1_IF" -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
-$IPT -A FORWARD -i "LAN1_IF" -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A FORWARD -i "LAN1_IF" -o "LAN1_IF" -d "LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A FORWARD -i "LAN1_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
