@@ -52,3 +52,25 @@ $IPT -A FORWARD -i "LAN2_IF" -o "WAN_IF" -s "LAN2_NET" -j ACCEPT
 # Ответы обратно
 $IPT -A FORWARD -i "WAN_IF" -o "LAN1_IF" -d "LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
 $IPT -A FORWARD -i "WAN_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+
+# Создаем systemd unit:
+cat /etc/systemd/system/ip-forward-onboot.service <<'EOF'
+[Unit]
+Description=Enable IPv4 forwarding on boot (safety)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/sysctl -w net.ipv4.ip_forward=1
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# перезагружаем службы:
+systemctl daemon-reload
+# включаем и запускаем службу
+systemctl enable --now ip-forward-onboot.service
