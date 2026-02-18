@@ -29,7 +29,7 @@ echo "CONFIG_IPV4=yes" >> options
 echo "172.16.5.1/28" >> ipv4address
 
 # Перезапуск сети и проверка статуса:
-systemctl restart network && systemctl status network
+systemctl restart network && systemctl status network --no-pager
 sleep 5
 # Проверка адресов:
 ip -c a
@@ -39,19 +39,19 @@ sleep 5
 echo "Включаем маршрутизацию:"
 /sbin/sysctl -w net.ipv4.ip_forward=1 >/dev/null
 
-IPT="/sbin/iptables"
+$IPT="/sbin/iptables"
 echo "Задаем правила маршрутизации на iptables:"
 # NAT наружу
-$IPT -t nat -A POSTROUTING -s "LAN1_NET" -o "WAN_IF" -j MASQUERADE
-$IPT -t nat -A POSTROUTING -s "LAN2_NET" -o "WAN_IF" -j MASQUERADE
+$IPT -t nat -A POSTROUTING -s "$LAN1_NET" -o "$WAN_IF" -j MASQUERADE
+$IPT -t nat -A POSTROUTING -s "$LAN2_NET" -o "$WAN_IF" -j MASQUERADE
 
 # NAT с локальных сетей на внешку
-$IPT -A FORWARD -i "LAN1_IF" -o "WAN_IF" -s "LAN1_NET" -j ACCEPT
-$IPT -A FORWARD -i "LAN2_IF" -o "WAN_IF" -s "LAN2_NET" -j ACCEPT
+$IPT -A FORWARD -i "$LAN1_IF" -o "$WAN_IF" -s "$LAN1_NET" -j ACCEPT
+$IPT -A FORWARD -i "$LAN2_IF" -o "$WAN_IF" -s "$LAN2_NET" -j ACCEPT
 
 # Ответы обратно
-$IPT -A FORWARD -i "WAN_IF" -o "LAN1_IF" -d "LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
-$IPT -A FORWARD -i "WAN_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A FORWARD -i "$WAN_IF" -o "$LAN1_IF" -d "$LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A FORWARD -i "$WAN_IF" -o "$LAN2_IF" -d "$LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 
 # Создаем systemd unit:
