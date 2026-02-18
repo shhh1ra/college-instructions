@@ -12,7 +12,7 @@ read -r -p "Внешний интерфейс (WAN), например ens38: " W
 # Создаем инты:
 # ens36
 cd /etc/net/ifaces
-mkdir -p ens36 && cd ens36 && touch options ipv4address
+mkdir -p $LAN1_IF && cd $LAN1_IF && touch options ipv4address
 echo "TYPE=eth" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
@@ -21,7 +21,7 @@ echo "172.16.4.1/28" >> ipv4address
 
 # ens37
 cd /etc/net/ifaces
-mkdir -p ens37 && cd ens37 && touch options ipv4address
+mkdir -p $LAN2_IF && cd $LAN2_IF && touch options ipv4address
 echo "TYPE=eth" >> options
 echo "BOOTPROTO=static" >> options
 echo "ONBOOT=yes" >> options
