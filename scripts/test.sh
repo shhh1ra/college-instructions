@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+
+IFACES_FOLDER="/etc/net/ifaces"
+TUNLOCAL="172.16.4.2"
+TUNREMOTE="172.16.5.2"
+INT_NAME="gre1"
+
 modprobe gre
 echo gre >> /etc/modules
 
