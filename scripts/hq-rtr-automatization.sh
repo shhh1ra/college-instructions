@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+IFACES_FOLDER="/etc/net/ifaces"
 HOST="ens36"
 VLAN1="ens36.100"
 VLAN2="ens36.200"
@@ -8,7 +9,9 @@ VLAN3="ens36.999"
 VLAN1_ID="100"
 VLAN2_ID="200"
 VLAN3_ID="999"
-IFACES_FOLDER="/etc/net/ifaces"
+TUNLOCAL="172.16.4.2"
+TUNREMOTE="172.16.5.2"
+INT_NAME="gre1"
 
 # --- Создание интов --- 
 # trunk
@@ -51,3 +54,18 @@ echo "192.168.99.1/29" >> ipv4address
 systemctl restart network && systemctl status network --no-pager
 sleep 5
 ip -c a
+
+# --- gre ---
+# Включение модуля gre
+modprobe gre
+echo gre >> /etc/modules
+
+cd $IFACES_FORDER
+mkdir $INT_NAME && cd $INT_NAME
+echo "TYPE=iptun" >> options
+echo "TUNTYPE=gre" >> options
+echo "TUNLOCAL=$TUNLOCAL" >> options
+echo "TUNREMOTE=$TUNREMOTE" >> options
+echo "TUNOPTIONS='ttl 64'" >> options
+echo "ONBOOT=yes" >> options
+echo "10.10.10.1/30" >> ipv4address
