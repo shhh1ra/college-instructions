@@ -20,5 +20,9 @@ $IPT -t nat -A POSTROUTING -s "LAN1_NET" -o "WAN_IF" -j MASQUERADE
 $IPT -t nat -A POSTROUTING -s "LAN2_NET" -o "WAN_IF" -j MASQUERADE
 
 # NAT с локальных сетей на внешку
-$IPT -A FORWARD -i "LAN1_IF" -o "LAN1_IF" -d "LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
-$IPT -A FORWARD -i "LAN1_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT
+iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT
+
+# Ответы обратно
+$IPT -A FORWARD -i "WAN_IF" -o "LAN1_IF" -d "LAN1_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
+$IPT -A FORWARD -i "WAN_IF" -o "LAN2_IF" -d "LAN2_NET" -m state --state ESTABLISHED,RELATED -j ACCEPT
