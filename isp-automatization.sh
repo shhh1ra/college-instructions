@@ -28,6 +28,13 @@ echo "ONBOOT=yes" >> options
 echo "CONFIG_IPV4=yes" >> options
 echo "172.16.5.1/28" >> ipv4address
 
+# Перезапуск сети и проверка статуса:
+systemctl restart network && systemctl status network
+sleep 5
+# Проверка адресов:
+ip -c a
+sleep 5
+
 # --- Маршрутизация --- 
 echo "Включаем маршрутизацию:"
 /sbin/sysctl -w net.ipv4.ip_forward=1 >/dev/null
