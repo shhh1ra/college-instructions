@@ -242,4 +242,4 @@ sysctl -p
 ```bash
 sysctl net.ipv4.ip_forward
 ```
-- Ожид
+- Ожидаемый результат - 1
