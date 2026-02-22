@@ -240,5 +240,6 @@ sysctl -p
 ```
 - Проверка:
 ```bash
-sysctl net.ipv4
+sysctl net.ipv4.ip_forward
 ```
+- Ожид
