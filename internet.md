@@ -239,4 +239,6 @@ echo "net.ipv4_ip_forward=1" >> /etc/sysctl.conf
 sysctl -p
 ```
 - Проверка:
-``
+```bash
+sysctl net.ipv4
+```
