@@ -216,7 +216,7 @@ ONBOOT=yes
 ```
 - ipv4address:
 ```bash
-192.168.10.1/28
+192.168.20.1/28
 ```
 - ens36.999
 - options:
