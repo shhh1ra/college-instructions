@@ -235,5 +235,5 @@ ONBOOT=yes
 ### Донастройка NAT
 - Сначала включаем маршрутизацию
 ```bash
-echo "net.ipv4_ip_forward=1"
+echo "net.ipv4_ip_forward=1" >> /etc/sysctl.conf
 ```
