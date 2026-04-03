@@ -37,4 +37,36 @@ iptables -L -n -v
 iptables-save >> /etc/sysconfig/iptables
 ```
 ****
-## Далее для примера приложу настройку NAT и базового firewall с помощью iptables
+## Далее для примера приложу настройку NAT и базового firewall с помощью iptables с обьяснениями команд:
+### NAT
+Небольшое предисловие, я разбирал демо прошлых годов, и там использовался alt server в качестве роутера, сам гайд написан на основе Alt Server 10.4
+- Разрешаем NAT с локальных сетей на внешку:
+```bash
+iptables -A FORWARD -i ens36 -o ens38 -s 172.16.4.0/28 -j ACCEPT
+iptables -A FORWARD -i ens37 -o ens38 -s 172.16.5.0/28 -j ACCEPT
+```
+### Разбор команды:
+- -A FORWARD - перессылка пакетов
+- -i ens36 - входящий интерфейс
+- -o ens38 - выходящий интейрфейс
+- -s 172.16.4.0/28 - в этом случае это указание фильтрации адресов из сети 172.16.4.x и последующую работу с ними
+- -j ACCEPT - разрешение (действие)
+****
+- Разрешаем NAT во внутрь сетей:
+```bash
+iptables -A FORWARD -i ens38 -o ens36 -d 172.16.4.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i ens38 -o ens37 -d 172.16.5.0/28 -m state --state ESTABLISHED,RELATED -j ACCEPT
+```
+### Разбор команд:
+- -d 172.16.4.0/28 - назначение пакета в 172.16.4.x/28
+- 
+- Проверяем правила:
+```bash
+iptables -t nat -L -n -v
+iptables -L FORWARD -n -v
+```
+- Ожидаемый вывод: строки MASQUERADE для двух подсетей.
+- Сохранение iptables:
+```bash
+iptables-save >> /etc/sysconfig/iptables
+```
